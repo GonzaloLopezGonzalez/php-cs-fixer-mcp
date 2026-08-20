@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+$autoloaders = [
+	__DIR__ . '/../vendor/autoload.php',
+	dirname(__DIR__, 2) . '/autoload.php',
+	dirname(__DIR__, 3) . '/autoload.php',
+];
+
+foreach ($autoloaders as $autoloader) {
+	if (is_file($autoloader)) {
+		require_once $autoloader;
+		break;
+	}
+}
+
+if (!class_exists(\PhpCsFixerMcp\PhpCsFixerMcpServer::class)) {
+	fwrite(STDERR, "No se encontró el autoloader de PHP CS Fixer MCP. Ejecuta composer install.\n");
+	exit(1);
+}
+
+try {
+	$server = (new \PhpCsFixerMcp\PhpCsFixerMcpServer())->createServer();
+
+	if (in_array('--http', $argv, true)) {
+		$transport = new \PhpMcp\Server\Transports\StreamableHttpServerTransport(
+			host: getenv('PHP_CS_FIXER_MCP_HOST') ?: '127.0.0.1',
+			port: (int) (getenv('PHP_CS_FIXER_MCP_PORT') ?: 8090),
+			mcpPath: getenv('PHP_CS_FIXER_MCP_PATH') ?: '/mcp',
+			enableJsonResponse: true,
+			stateless: true
+		);
+		$server->listen($transport);
+		exit(0);
+	}
+
+	$server->listen(new \PhpCsFixerMcp\Transport\WindowsStdioServerTransport(), false);
+} catch (\Throwable $exception) {
+	fwrite(STDERR, '[CRITICAL ERROR] ' . $exception->getMessage() . PHP_EOL);
+	exit(1);
+}
