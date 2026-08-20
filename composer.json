@@ -1,5 +1,5 @@
 {
-    "name": "local/php-cs-fixer-mcp",
+    "name": "gonzalolopezgonzalez/php-cs-fixer-mcp",
     "description": "MCP server for PHP CS Fixer",
     "type": "library",
     "license": "proprietary",

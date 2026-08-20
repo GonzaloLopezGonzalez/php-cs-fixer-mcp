@@ -2,6 +2,33 @@
 
 Servidor MCP para revisar y formatear codigo PHP con PHP CS Fixer y PSR-12.
 
+## Instalacion
+
+Mientras el paquete no este publicado en Packagist, anade el repositorio GitHub
+al `composer.json` de tu proyecto:
+
+```json
+{
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/GonzaloLopezGonzalez/php-cs-fixer-mcp"
+		}
+	],
+	"require": {
+		"gonzalolopezgonzalez/php-cs-fixer-mcp": "dev-main"
+	}
+}
+```
+
+Despues ejecuta:
+
+```powershell
+composer update gonzalolopezgonzalez/php-cs-fixer-mcp
+```
+
+El ejecutable se instalara en `vendor/bin/php-cs-fixer-mcp`.
+
 ## Herramientas
 
 - `php_cs_fixer_check`: revisa un archivo o directorio sin modificarlo.
@@ -19,7 +46,7 @@ Para probarlo manualmente:
 
 ```powershell
 $env:PHP_CS_FIXER_PROJECT_ROOT = "C:/xampp/htdocs"
-php C:/xampp/htdocs/vendor/php-cs-fixer-mcp/bin/php-cs-fixer-mcp
+php C:/xampp/htdocs/vendor/bin/php-cs-fixer-mcp
 ```
 
 Configuralo en el `mcp.json` de VS Code:
@@ -31,7 +58,7 @@ Configuralo en el `mcp.json` de VS Code:
 			"type": "stdio",
 			"command": "php",
 			"args": [
-				"C:/xampp/htdocs/vendor/php-cs-fixer-mcp/bin/php-cs-fixer-mcp"
+				"C:/xampp/htdocs/vendor/bin/php-cs-fixer-mcp"
 			],
 			"env": {
 				"PHP_CS_FIXER_PROJECT_ROOT": "C:/xampp/htdocs"
