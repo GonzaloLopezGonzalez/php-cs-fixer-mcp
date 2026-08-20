@@ -37,6 +37,28 @@ El ejecutable se instalara en `vendor/bin/php-cs-fixer-mcp`.
 Las rutas se resuelven dentro de `PHP_CS_FIXER_PROJECT_ROOT`. Por defecto se usa
 el directorio de trabajo del proceso MCP.
 
+### Revisar o corregir una carpeta
+
+Las dos herramientas recorren la carpeta indicada y sus subcarpetas. Las rutas
+son relativas a `PHP_CS_FIXER_PROJECT_ROOT`:
+
+```text
+php_cs_fixer_check
+path: mi-proyecto/src
+```
+
+Esto revisa los archivos PHP sin modificarlos. Para aplicar las correcciones,
+usa `php_cs_fixer_fix` con la misma ruta:
+
+```text
+php_cs_fixer_fix
+path: mi-proyecto/src
+```
+
+Si quieres procesar todo un proyecto, indica `mi-proyecto`. Para evitar tocar
+dependencias externas, es preferible indicar las carpetas de tu propio codigo
+como `src`, `app` o `bin`, y no `vendor`.
+
 ## Configuracion de VS Code
 
 El servidor usa STDIO para que VS Code lo inicie automaticamente, igual que el
