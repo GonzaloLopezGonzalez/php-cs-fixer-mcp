@@ -1,0 +1,33 @@
+{
+    "name": "local/php-cs-fixer-mcp",
+    "description": "MCP server for PHP CS Fixer",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "php-mcp/server": "^3.3",
+        "symfony/process": "^6.4 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpCsFixerMcp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpCsFixerMcp\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "cs": "php-cs-fixer fix --config=.php-cs-fixer.dist.php --diff --dry-run",
+        "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+        "quality": [
+            "@cs",
+            "composer validate --strict"
+        ]
+    },
+    "bin": [
+        "bin/php-cs-fixer-mcp"
+    ]
+}
