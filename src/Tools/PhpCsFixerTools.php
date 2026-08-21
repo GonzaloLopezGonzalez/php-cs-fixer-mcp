@@ -18,7 +18,7 @@ final class PhpCsFixerTools
         ?string $projectRoot = null,
         private readonly LoggerInterface $logger = new NullLogger(),
     ) {
-        $root = $projectRoot ?? ($_ENV['PHP_CS_FIXER_PROJECT_ROOT'] ?? getcwd());
+        $root = $projectRoot ?? ($this->environmentValue('PHP_CS_FIXER_PROJECT_ROOT') ?? getcwd());
         $resolvedRoot = realpath($root);
 
         if ($resolvedRoot === false || !is_dir($resolvedRoot)) {
