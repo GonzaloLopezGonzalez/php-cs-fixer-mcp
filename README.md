@@ -61,17 +61,11 @@ como `src`, `app` o `bin`, y no `vendor`.
 
 ## Configuracion de VS Code
 
-El servidor usa STDIO para que VS Code lo inicie automaticamente, igual que el
-MCP de MySQL. Incluye un transporte bloqueante compatible con Windows.
+El servidor usa STDIO para que VS Code lo inicie automaticamente en Windows y
+Linux.
 
-Para probarlo manualmente:
-
-```powershell
-$env:PHP_CS_FIXER_PROJECT_ROOT = "C:/xampp/htdocs"
-php C:/xampp/htdocs/vendor/bin/php-cs-fixer-mcp
-```
-
-Configuralo en el `mcp.json` de VS Code:
+Para la instalacion local de este repositorio en Windows, configura el
+`.vscode/mcp.json` asi:
 
 ```json
 {
@@ -80,7 +74,7 @@ Configuralo en el `mcp.json` de VS Code:
 			"type": "stdio",
 			"command": "php",
 			"args": [
-				"C:/xampp/htdocs/vendor/bin/php-cs-fixer-mcp"
+				"C:/xampp/htdocs/packages/php-cs-fixer-mcp/bin/php-cs-fixer-mcp"
 			],
 			"env": {
 				"PHP_CS_FIXER_PROJECT_ROOT": "C:/xampp/htdocs"
@@ -88,6 +82,32 @@ Configuralo en el `mcp.json` de VS Code:
 		}
 	}
 }
+```
+
+Si instalas el paquete mediante Composer en tu proyecto, usa esta
+configuracion tanto en Windows como en Linux:
+
+```json
+{
+	"servers": {
+		"php-cs-fixer": {
+			"type": "stdio",
+			"command": "php",
+			"args": [
+				"${workspaceFolder}/vendor/bin/php-cs-fixer-mcp"
+			],
+			"env": {
+				"PHP_CS_FIXER_PROJECT_ROOT": "${workspaceFolder}"
+			}
+		}
+	}
+}
+```
+
+En Linux, concede permisos de ejecucion al servidor si fuera necesario:
+
+```bash
+chmod +x vendor/bin/php-cs-fixer-mcp
 ```
 
 ## Estructura

@@ -18,7 +18,7 @@ final class PhpCsFixerTools
         ?string $projectRoot = null,
         private readonly LoggerInterface $logger = new NullLogger(),
     ) {
-        $root = $projectRoot ?? ($_ENV['PHP_CS_FIXER_PROJECT_ROOT'] ?? getcwd());
+        $root = $projectRoot ?? ($this->environmentValue('PHP_CS_FIXER_PROJECT_ROOT') ?? getcwd());
         $resolvedRoot = realpath($root);
 
         if ($resolvedRoot === false || !is_dir($resolvedRoot)) {
@@ -129,7 +129,7 @@ final class PhpCsFixerTools
 
     private function phpCsFixerBinary(): string
     {
-        $configuredBinary = $_ENV['PHP_CS_FIXER_BINARY'] ?? '';
+        $configuredBinary = $this->environmentValue('PHP_CS_FIXER_BINARY') ?? '';
         if ($configuredBinary !== '') {
             return $configuredBinary;
         }
@@ -145,6 +145,19 @@ final class PhpCsFixerTools
         }
 
         throw new \RuntimeException('No se encontró vendor/bin/php-cs-fixer. Ejecuta composer install.');
+    }
+
+    private function environmentValue(string $name): ?string
+    {
+        $value = getenv($name);
+
+        if ($value !== false && $value !== '') {
+            return $value;
+        }
+
+        $value = $_ENV[$name] ?? null;
+
+        return $value !== '' ? $value : null;
     }
 
     private function decodeJson(string $output): mixed
